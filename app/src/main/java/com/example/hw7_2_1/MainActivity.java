@@ -25,23 +25,31 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
-                String string = addresExample.getText().toString();
-                char[] chars = string.toCharArray();
-                boolean addres = true;
-                for (char aChar : chars) {
-                    if (Character.isLetter(aChar)) {
-                        Uri uri = Uri.parse("geo:?q=" + string);
-                        intent.setData(uri);
-                        addres = false;
-                        break;
-                    }
-                }
-                if (addres) {
-                    Uri uri = Uri.parse("geo:" + string);
-                    intent.setData(uri);
-                }
+                String onTextChangedString = onTextChanged();
+                Uri uri = Uri.parse(onTextChangedString);
+                intent.setData(uri);
                 startActivity(intent);
             }
         });
+    }
+
+    private String onTextChanged() {
+        String string = addresExample.getText().toString();
+        char[] chars = string.toCharArray();
+        boolean addres = true;
+        for (char aChar : chars) {
+            if (Character.isLetter(aChar)) {
+                //Uri uri = Uri.parse("geo:?q=" + string);
+                //intent.setData(uri);
+                addres = false;
+                break;
+            }
+        }
+        if (addres) {
+            //Uri uri = Uri.parse("geo:" + string);
+            //intent.setData(uri);
+            return "geo:" + string;
+        }
+        return "geo:?q=" + string;
     }
 }
